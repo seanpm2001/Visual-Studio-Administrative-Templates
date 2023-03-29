@@ -1,22 +1,9 @@
 pool: VSEngSS-MicroBuild2022-1ES
 
-parameters:
-- name: BuildPlatform
-  displayName: Build platform
-  type: string
-  default: 'Any CPU'
-  values:
-  - 'Any CPU'
-  - 'x86'
-  - 'x64'
-- name: BuildConfiguration
-  displayName: Build configuration
-  type: string
-  default: Release
-  values:
-  - Release
-
 variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
   CodeQL.Enabled: true
 
 schedules:
@@ -35,9 +22,9 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '*.sln'
+    solution: '$(solution)'
     maximumCpuCount: true
-    platform: '${{ parameters.BuildPlatform }}'
-    configuration: '${{ parameters.BuildConfiguration }}'
+    platform: '$(buildPlatform)'
+    configuration: $(buildConfiguration)'
 
 - task: CodeQL3000Finalize@0
