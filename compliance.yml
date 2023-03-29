@@ -1,0 +1,45 @@
+trigger:
+- 'main'
+
+pool: VSEngSS-MicroBuild2022-1ES
+
+parameters:
+- name: BuildPlatform
+  displayName: Build platform
+  type: string
+  default: 'Any CPU'
+  values:
+  - 'Any CPU'
+  - 'x86'
+  - 'x64'
+- name: BuildConfiguration
+  displayName: Build configuration
+  type: string
+  default: Release
+  values:
+  - Release
+
+variables:
+  CodeQL.Enabled: true
+
+schedules:
+- cron: '0 0 */28 * *'
+  displayName: 'Run every 28 days at 12:00 a.m.'
+  branches:
+    include: main
+
+steps:
+- task: CodeQL3000Init@0
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+
+- task: VSBuild@1
+  inputs:
+    solution: '*.sln'
+    maximumCpuCount: true
+    platform: '${{ parameters.BuildPlatform }}'
+    configuration: '${{ parameters.BuildConfiguration }}'
+
+- task: CodeQL3000Finalize@0
