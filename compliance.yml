@@ -26,7 +26,8 @@ schedules:
 - cron: '0 0 */28 * *'
   displayName: 'Run every 28 days at 12:00 a.m.'
   branches:
-    include: main
+    include: 
+    - main
 
 steps:
 - task: CodeQL3000Init@0
