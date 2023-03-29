@@ -37,6 +37,11 @@ steps:
 
 - task: CodeQL3000Init@0
 
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet
+  inputs:
+    versionSpec: '6.x'
+
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
